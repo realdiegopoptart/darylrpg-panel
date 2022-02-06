@@ -1,5 +1,7 @@
 <?php 
-    include_once "includes/header.php";
+  	include 'includes/config.php'; 
+  	include 'includes/header.php';
+	  checkForLogin();
 ?>
 
       <div class="ui container">

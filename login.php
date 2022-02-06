@@ -1,3 +1,41 @@
+<?php 
+include 'includes/config.php';
+
+if(isset($_SESSION['playername']))
+{
+	echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';   
+	exit;
+}
+
+if(isset($_POST['pname']) && isset($_POST['ppass']))
+{
+  if(!isset($_SESSION['playername']))
+	{
+		$username = $_POST['pname'];
+		$password = $_POST['ppass'];
+		$saltedpassword = strtoupper((hash('sha256', $password . $username)));
+
+    $query = $con->prepare("SELECT `admin_lvl`, `user_name`, `user_id` FROM `users` WHERE `user_name` = ? and `password` = ?");
+		$query->execute(array($_POST['pname'], $saltedpassword));
+		if($query->rowCount() > 0)
+		{
+			$data = $query->fetch();
+			
+			$_SESSION['playername'] = $data['user_name'];
+			$_SESSION['playeradmin'] = $data['admin_lvl'];
+			$_SESSION['uID'] = $data['user_id'];
+			 
+			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';   
+			exit;
+		}
+		else
+		{
+			$err = 'Wrong username or password';
+		}
+	}
+}
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,12 +47,12 @@
     />
     <meta
       name="description"
-      content="Semantic-UI-Forest, collection of design, themes and templates for Semantic-UI."
+      content="Asiania RPG"
     />
-    <meta name="keywords" content="Semantic-UI, Theme, Design, Template" />
-    <meta name="author" content="PPType" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Signin Template for Semantic-UI</title>
+
+    <title>Asiania RPG</title>
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
@@ -42,16 +80,19 @@
     <div class="ui center aligned grid">
       <div class="ui container">
         <h1 class="ui huge header">Asiania RPG Panel</h1>
-        <form class="ui large form">
+        <form class="ui large form" action="login.php" method="POST">
           <div class="field">
             <div class="ui input">
-              <input name="username" placeholder="Username" type="text" />
+              <input placeholder="Username" id="pname" name="pname" />
             </div>
           </div>
           <div class="field">
             <div class="ui input">
-              <input name="password" placeholder="Password" type="password" />
+              <input placeholder="Password" type="password" id="ppass" name="ppass" />
             </div>
+            	<?php if(isset($err)) 
+					echo '<center><b style="color: red;">'.$err.'</b></center>'; 
+				?>
           </div>
           <button class="ui fluid large primary button" type="submit">
             Sign in
