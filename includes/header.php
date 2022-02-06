@@ -9,15 +9,16 @@
       name="description"
       content="Semantic-UI-Forest, collection of design, themes and templates for Semantic-UI."
     />
-    <meta name="keywords" content="Semantic-UI, Theme, Design, Template" />
     <meta name="author" content="PPType" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Off-canvas Template for Semantic-UI</title>
+    <title>Asiania RPG - Panel</title>
+    
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
       type="text/css"
     />
+
     <style type="text/css">
       body {
         padding-top: 56px;
