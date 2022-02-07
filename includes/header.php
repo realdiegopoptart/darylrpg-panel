@@ -119,8 +119,8 @@
           <a class="item">Assets</a>
           <a class="item">Profile</a>
         </div>
-        <div class="ui icon mini input">
+        <div style="height: 42px; padding-top: 10px;" class="ui icon mini input">
             <input type="text" placeholder="Search players">
-            <i class="search icon"></i>
         </div>
+        <a href="logout.php" class="item">Logout</a>
       </div>

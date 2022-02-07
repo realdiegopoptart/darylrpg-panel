@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'includes/config.php';
 
 if(isset($_SESSION['playername']))
@@ -16,7 +16,8 @@ if(isset($_POST['pname']) && isset($_POST['ppass']))
 		$saltedpassword = strtoupper((hash('sha256', $password . $username)));
 
     $query = $con->prepare("SELECT `admin_lvl`, `user_name`, `user_id` FROM `users` WHERE `user_name` = ? and `password` = ?");
-		$query->execute(array($_POST['pname'], $saltedpassword));
+		$query->execute(array($username, $saltedpassword));
+
 		if($query->rowCount() > 0)
 		{
 			$data = $query->fetch();
