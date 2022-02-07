@@ -24,7 +24,7 @@ $sesuID = $_SESSION['uID'];
               <div class="three column row">
                 <div class="column">
                 <div role="list" class="ui divided very relaxed list">
-                  <a role="listitem" class="item" href="https://forum.valrisegaming.com" target="_blank">
+                  <a role="listitem" class="item" href="https://a-rpg.com" target="_blank">
                       <i aria-hidden="true" class="browser icon"></i>
                       <div class="content">
                           <div class="header">Forums</div>
