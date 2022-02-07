@@ -17,91 +17,29 @@ $sesuID = $_SESSION['uID'];
         <div class="ui padded grid">
           <div class="thirteen wide column">
             <div class="ui message">
-              <h1 class="ui huge header">Hello, world!</h1>
-              <p class="lead">
-                This is a simple example to show the off-canvas layout pattern
-                in Semantic-UI, click the green button to see off-canvas left
-                sidebar coming in and out of the page, and try to change the
-                viewport size to see right sidebar toggle button. You could
-                check out more wonderful effects.
-              </p>
+              <h1 class="ui header"><?php echo $_SESSION['playername'];?></h1>
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui grid">
               <div class="three column row">
                 <div class="column">
-                  <h1 class="ui header">Heading</h1>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Fusce
-                    dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh, ut fermentum massa justo sit amet risus. Etiam porta
-                    sem malesuada magna mollis euismod. Donec sed odio dui.
-                  </p>
-                  <button class="ui small basic button">
-                    View detailes &raquo;
-                  </button>
-                </div>
-                <div class="column">
-                  <h1 class="ui header">Heading</h1>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Fusce
-                    dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh, ut fermentum massa justo sit amet risus. Etiam porta
-                    sem malesuada magna mollis euismod. Donec sed odio dui.
-                  </p>
-                  <button class="ui small basic button">
-                    View detailes &raquo;
-                  </button>
-                </div>
-                <div class="column">
-                  <h1 class="ui header">Heading</h1>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Fusce
-                    dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh, ut fermentum massa justo sit amet risus. Etiam porta
-                    sem malesuada magna mollis euismod. Donec sed odio dui.
-                  </p>
-                  <button class="ui small basic button">
-                    View detailes &raquo;
-                  </button>
-                </div>
+                <div role="list" class="ui divided very relaxed list">
+                  <a role="listitem" class="item" href="https://forum.valrisegaming.com" target="_blank">
+                      <i aria-hidden="true" class="browser icon"></i>
+                      <div class="content">
+                          <div class="header">Forums</div>
+                          <div class="description">Ban Appeals, Suggestions, and more!</div>
+                      </div>
+                  </a>
+                  <a role="listitem" class="item" href="https://discord.gg/FuerHArrXF" target="_blank">
+                      <i aria-hidden="true" class="discord outline icon"></i>
+                      <div class="content">
+                          <div class="header">Discord</div>
+                          <div class="description">Join the discord server</div>
+                      </div>
+                  </a>
               </div>
-              <div class="three column row">
-                <div class="column">
-                  <h1 class="ui header">Heading</h1>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Fusce
-                    dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh, ut fermentum massa justo sit amet risus. Etiam porta
-                    sem malesuada magna mollis euismod. Donec sed odio dui.
-                  </p>
-                  <button class="ui small basic button">
-                    View detailes &raquo;
-                  </button>
-                </div>
-                <div class="column">
-                  <h1 class="ui header">Heading</h1>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Fusce
-                    dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh, ut fermentum massa justo sit amet risus. Etiam porta
-                    sem malesuada magna mollis euismod. Donec sed odio dui.
-                  </p>
-                  <button class="ui small basic button">
-                    View detailes &raquo;
-                  </button>
-                </div>
-                <div class="column">
-                  <h1 class="ui header">Heading</h1>
-                  <p>
-                    Donec id elit non mi porta gravida at eget metus. Fusce
-                    dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh, ut fermentum massa justo sit amet risus. Etiam porta
-                    sem malesuada magna mollis euismod. Donec sed odio dui.
-                  </p>
-                  <button class="ui small basic button">
-                    View detailes &raquo;
-                  </button>
+
                 </div>
               </div>
             </div>
@@ -112,12 +50,21 @@ $sesuID = $_SESSION['uID'];
           <div class="three wide column">
             <p>Online players:</p>
             <div class="ui vertical menu">
-            <a class="item">Diego_Starm</a> <a class="item">Daryl_Reznov</a>
-            <a class="item">Xavier_Ragnarok</a> <a class="item">Jack_Addison</a>
-            <a class="item">Diego_Starm</a> <a class="item">Daryl_Reznov</a>
-            <a class="item">Xavier_Ragnarok</a> <a class="item">Jack_Addison</a>
-              <a class="item">Xavier_Ragnarok</a> <a class="item">Jack_Addison</a>
-              <a class="item">Diego_Starm</a> <a class="item">Daryl_Reznov</a>
+              <?php
+              $isonlinequery = $con->prepare("SELECT user_name FROM users WHERE isonline = 1");
+              $isonlinequery->execute();
+              if($isonlinequery -> rowCount() == 0)
+              {
+                echo '<a class="item">No players are online</a>';
+              }
+              else
+              {
+                while($row = $isonlinequery -> fetch())
+                {
+                  echo '<a class="item">'.$row['user_name'].'<div class="ui red tiny basic horizontal label">Owner</div></a>';
+                }
+              }
+              ?>
             </div>
           </div>
         </div>
