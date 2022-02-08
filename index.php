@@ -15,9 +15,10 @@ $sesuID = $_SESSION['uID'];
 
       <div class="ui container">
         <div class="ui padded grid">
-          <div class="thirteen wide column">
+          <div class="twelve wide column">
             <div class="ui message">
-              <h1 class="ui header"><?php echo $_SESSION['playername'];?></h1>
+              <h1 class="ui header"><?php 
+              echo str_replace("_"," ",$_SESSION['playername']);?></h1>
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui grid">
@@ -47,7 +48,7 @@ $sesuID = $_SESSION['uID'];
             <div class="ui divider"></div>
             <footer>Asiania RPG</footer>
           </div>
-          <div class="three wide column">
+          <div class="four wide column">
             <p>Online players:</p>
             <div class="ui vertical menu">
               <?php
