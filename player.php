@@ -93,7 +93,7 @@ if($banreasonquery->rowCount() != 0)
         This player is banned
     	</div>
 		    <ul class="list">
-		    <li>'.$sData['playerName'].' is currently banned for <q>'.$banreason['ban_reason'].'</q></li>
+		    <li>'.$sData['user_name'].' is currently banned for <q>'.$banreason['ban_reason'].'</q></li>
 		    </ul>
     </div>';
     }
