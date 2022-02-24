@@ -47,39 +47,12 @@ if(isset($_GET['searchuser']))
 }
 ?>
 
-<div class="ui container">
-  <div class="ui header">
-  	<?php echo $sData['user_name']; ?>
-  	<div class="ui grey tiny basic horizontal label"><?php echo 'id: '.$sData['user_id']; ?></div>
 
-  	<?php
-  	if($sData['admin_lvl'] > 0)
-  	{
-  		$adminlvl;
-  		switch($sData['playerLevel']) 
-	    {
-	    	case 1:
-	            $adminlvl = "Moderator";
-	            break;
-	        case 2:
-	            $adminlvl = "Administrator"; 
-	            break;
-	        case 3:
-	            $adminlvl = "Manager";
-	            break;
-	        case 4:
-	            $adminlvl = "Division Leader";
-	            break;
-	        case 5:
-	            $adminlvl = "Community Leader";
-	            break;
-	    };
-  		echo '<div class="ui red tiny basic horizontal label">'.$adminlvl.'</div>';
-  	}
-    ?>
-  </div>
-
-<?php
+  	      <div class="ui container">
+        <div class="ui padded grid">
+          <div class="sixteen wide column">
+          	
+          	<?php
 $banreasonquery = $con->prepare("SELECT * FROM banned WHERE user_id = {$sData['user_id']}");
 $banreasonquery->execute();
 $banreason = $banreasonquery->fetch();
@@ -90,29 +63,80 @@ if($banreasonquery->rowCount() != 0)
     '<div class="ui error message">
     	<div class="header">
     	<i class="icon exclamation triangle"></i>
-        This player is banned
+        This player is currently banned
     	</div>
 		    <ul class="list">
-		    <li>'.$sData['user_name'].' is currently banned for <q>'.$banreason['ban_reason'].'</q></li>
+		    <li><strong>'.$sData['user_name'].'</strong> was banned on <strong>'.$banreason['ban_date'].'</strong> for <q>'.$banreason['ban_reason'].'</q></li>
 		    </ul>
     </div>';
     }
 ?>
+            <div class="ui message">
+
+  	<?php echo $sData['user_name']; ?>
+  	<div class="ui grey tiny basic horizontal label"><?php echo 'id: '.$sData['user_id']; ?></div>
+
+  	<?php
+  	if($sData['admin_lvl'] > 0 || $sData['helper_level'] == 1)
+  	{
+  		$adminlvl;
+
+  		if($sData['helper_level'] == 1)
+  		{
+  			$adminlvl = "Helper";
+  			break;
+  		}
+
+  		switch($sData['admin_lvl']) 
+	    {
+	    	case 1:
+	            $adminlvl = "Moderator";
+	            break;
+	        case 2:
+	            $adminlvl = "Admin"; 
+	            break;
+	        case 3:
+	            $adminlvl = "Senior Admin";
+	            break;
+	        case 4:
+	            $adminlvl = "Manager";
+	            break;
+	        case 5:
+	            $adminlvl = "Server Leader";
+	            break;
+	        case 6:
+	            $adminlvl = "Director";
+	            break;
+	        case 7:
+	            $adminlvl = "Owner";
+	            break;
+	        case 8:
+	            $adminlvl = "Community Leader";
+	            break;	
+	    };
+
+
+  		echo '<div class="ui red tiny basic horizontal label">'.$adminlvl.'</div>';
+  	}
+    ?>
+
+  </div>
 	<div class="ui horizontal section divider">
 		PLAYER INFORMATION
 		</div>
         <div class="ui padded grid">
-        <div class="ui three column grid">
-        	<?php
+        <div class="ui sixteen column grid">
+        	</div>
+        <div class="column">
+        <?php
         	$playerskin = $sData['skin_id'];
 
         	if($sData['job_id'] != 0 || $sData['duty'] != 0)
         		$playerskin = $sJob['skin_id2'];
 
-        	echo '<img style="width: 75px;" src="assets/img/skins/Skin'.$playerskin.'.jpg" class="ui small bordered centered image">';
-        	?>
-        	</div>
-        <div class="column">
+        	echo '<img style="width: 75px;" src="assets/skin/heads/Skin_'.$playerskin.'.png" class="ui small centered image">';
+        ?>
+
             <div role="list" class="ui list">
                 <div role="listitem" class="item">
                     <div class="header">Status</div>
@@ -215,8 +239,11 @@ $query->execute();
             case 2:
                 $a = '<div class="ui blue tiny basic horizontal label">Government</div>';
                 break;
-            default:
-                $a = '<div class="ui grey tiny basic horizontal label">Private</div>';
+            case 3:
+                $a = '<div class="ui grey tiny basic horizontal label">Business</div>';
+                break;
+            case 4:
+                $a = '<div class="ui grey tiny basic horizontal label">Criminal</div>';
                 break;
         }
 
