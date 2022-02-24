@@ -52,8 +52,9 @@ $sesuID = $_SESSION['uID'];
             <p>Online players:</p>
             <div class="ui vertical menu">
               <?php
-              $isonlinequery = $con->prepare("SELECT user_name FROM users WHERE isonline = 1");
+              $isonlinequery = $con->prepare("SELECT user_name, admin_lvl, helper_level FROM users WHERE isonline = 1");
               $isonlinequery->execute();
+
               if($isonlinequery -> rowCount() == 0)
               {
                 echo '<a class="item">No players are online</a>';
@@ -62,7 +63,45 @@ $sesuID = $_SESSION['uID'];
               {
                 while($row = $isonlinequery -> fetch())
                 {
-                  echo '<a class="item">'.$row['user_name'].'<div class="ui red tiny basic horizontal label">Owner</div></a>';
+
+				    	$stafftag;
+
+				        if($row['helper_level'] == 1)
+				        {
+				        	$stafftag = '<div class="ui green tiny basic horizontal label">Helper</div>';
+				        }
+				        else
+				        {
+					        switch($row['admin_lvl']) 
+					        {
+					         	case 1:
+					                $stafftag = '<div class="ui green tiny basic horizontal label">Moderator</div>';
+					                break;
+					            case 2:
+					                $stafftag = '<div class="ui green tiny basic horizontal label">Junior Admin</div>'; 
+					                break;
+					            case 3:
+					                $stafftag = '<div class="ui red tiny basic horizontal label">Senior Admin</div>';
+					                break;
+					            case 4:
+					                $stafftag = '<div class="ui orange tiny basic horizontal label">Manager</div>';
+					                break;
+					            case 5:
+					                $stafftag = '<div class="ui red tiny basic horizontal label">Server Leader</div>';
+					                break;
+					            case 6:
+					                $stafftag = '<div class="ui red tiny basic horizontal label">Director</div>';
+					                break;
+					            case 7:
+					                $stafftag = '<div class="ui red tiny basic horizontal label">Owner</div>';
+					                break;
+					            default:
+					                $stafftag = "";
+					                break;
+					        };
+						}				    
+
+                  echo '<a class="item">'.$row['user_name'].$stafftag.'</a>';
                 }
               }
               ?>
