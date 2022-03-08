@@ -136,18 +136,6 @@ if(isset($_GET['searchuser']))
         <div class="column">
 
             <div role="list" class="ui list">
-                <div role="listitem" class="item">
-                    <div class="header">Status</div>
-                    <div class="description"><?php 
-                    if($sData['isonline'] == 1)
-                    {
-                        echo 'Online';
-                    }
-                    else
-                    {
-                        echo "Offline";
-                    } ?></div>
-                </div>
 
                 <div role="listitem" class="item">
                     <div class="header">Level</div>
