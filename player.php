@@ -256,14 +256,10 @@ $query->execute();
 </table>
 
 <?php
-
-if($_SESSION['playeradmin'] > 1) 
+if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID']) 
 {
-    $queryp = $con->prepare("SELECT r.punishmentType, r.punishmentReason, r.punisherId FROM player_punishment r INNER JOIN player p ON (r.playerId = p.playerId) WHERE p.playerId = {$sData['playerId']} ORDER BY r.punishmentTime;");
-    $queryp->execute();
-	
-    $queryn = $con->prepare("SELECT r.playerId, r.noterId, r.noteText, r.noteTime, FROM player_notes r INNER JOIN player p ON (r.playerId = p.playerId) WHERE p.playerId = {$sData['playerId']} ORDER BY r.punishmentTime;");
-    $queryn->execute();	
+    $queryp = $con->prepare("SELECT r.type, r.reason, r.admin_id FROM record r INNER JOIN users p ON (r.user_id = p.user_id) WHERE p.user_id = {$sData['user_id']} ORDER BY r.time;");
+    $queryp->execute();	
 	
 	echo '<div class="ui horizontal section divider">
 	ADMINISTRATIVE ACTIONS
@@ -289,44 +285,44 @@ if($_SESSION['playeradmin'] > 1)
 		  </tr>
 		</thead>
 		<tbody>';
+
 		while($row = $queryp -> fetch())
 		{
-			$adminid = $row['punisherId'];
+			$adminid = $row['admin_id'];
 			echo '<tr>
 			<td>';
-				switch($row['punishmentType']) 
+				switch($row['type']) 
 				{
-					case 1:
+					case "Jail":
 						echo '<a class="item">
-						<div class="ui yellow horizontal label">Ticket</div>
+						<div class="ui yellow horizontal label">Jail</div>
 						</a>';
 						break;
-					case 2:
+					case "Warn":
 						echo '<a class="item">
 						<div class="ui yellow horizontal label">Warning</div>
 						</a>';      
 						break;
-					case 3:
+					case "Kick":
 						echo '<a class="item">
 						<div class="ui yellow horizontal label">Kick</div>
 						</a>';      
 						break;
-					case 4:
+					case "Temp Ban":
 						echo '<a class="item">
 						<div class="ui orange horizontal label">Temp Ban</div>
 						</a>';  
 						break;
-					case 5:
+					case "Ban":
 						echo '<a class="item">
 						<div class="ui red horizontal label">Full Ban</div>
 						</a>';    
 						break;
-					case 6:
+					case "Mute":
 						echo '<a class="item">
 						<div class="ui yellow horizontal label">Mute</div>
 						</a>';     
 						break;
-		
 					default:
 						echo '<center><a class="item">
 						<div class="ui grey horizontal label">Unknown</div>
@@ -335,61 +331,25 @@ if($_SESSION['playeradmin'] > 1)
 				}
 
 			echo '</td>
-			<td>'. $row['punishmentReason'].'</td>
+			<td>'. $row['reason'].'</td>
 			<td>';
-			$adminname = $con->prepare("SELECT playerName FROM player WHERE playerId = $adminid");
+			$adminname = $con->prepare("SELECT user_name FROM users WHERE user_id = $adminid");
 			$adminname->execute();
 			$adminName = $adminname->fetch();
-			echo '<a href="player.php?searchuser='.$adminName['playerName'].'" >'.$adminName['playerName']; echo `</td>
+			echo '<a href="player.php?searchuser='.$adminName['user_name'].'" >'.$adminName['user_name']; echo `</td>
 			</tr>`;
 		}
 
 		echo '</tbody>
 		<tfoot>
 		</tfoot>
-		</table>
-		</div>';
-	}
-      
-        if($queryn -> rowCount() == 0)
-        {
-			echo '<div class="ui negative message">
-			<div class="header">No player notes found</div>
-			</div>';
-        }
-		else
-		{
-			echo '<div class="four wide column">
-			<table class="ui table">
-			<thead class="">
-			  <tr>
-				<th class="">Date</th>
-				<th class="">Note</th>
-				<th class="">Admin</th>
-			  </tr>
-			</thead>
-			<tbody>';
-
-			while($row = $queryn -> fetch())
-			{
-				$adminid = $row['noterId'];
-				echo '<tr>
-					<td>'. $row['noteTime'] .'</td>
-					<td>'. $row['noteText'].'</td>
-					<td>';
-				$adminname = $con->prepare("SELECT playerName FROM player WHERE playerId = $adminid");
-				$adminname->execute();
-				$adminName = $adminname->fetch();
-				echo '<a href="player.php?searchuser='.$adminName['playerName'].'" >'.$adminName['playerName']; echo `</td>
-				</tr>`;
-			}
-			echo '</tbody>
-			<tfoot>
-			</tfoot>
-		</table>
-		</div>';
+		</table>';
 	}
 }
-
+?>
+            <div class="ui hidden divider"></div>
+            <div class="ui divider"></div>
+            <footer>Asiania RPG</footer>
+<?php
 	include 'includes/footer.php'; 
 ?>
