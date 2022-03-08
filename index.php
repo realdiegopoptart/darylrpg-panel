@@ -25,6 +25,13 @@ $sesuID = $_SESSION['uID'];
               <div class="three column row">
                 <div class="column">
                 <div role="list" class="ui divided very relaxed list">
+                <a role="listitem" class="item" href="samp://51.79.204.126:7777" target="_blank">
+                      <i aria-hidden="true" class="game icon"></i>
+                      <div class="content">
+                          <div class="header">SA:MP</div>
+                          <div class="description">Click on me to connect!</div>
+                      </div>
+                  </a>
                   <a role="listitem" class="item" href="https://a-rpg.com" target="_blank">
                       <i aria-hidden="true" class="browser icon"></i>
                       <div class="content">
@@ -36,7 +43,7 @@ $sesuID = $_SESSION['uID'];
                       <i aria-hidden="true" class="discord outline icon"></i>
                       <div class="content">
                           <div class="header">Discord</div>
-                          <div class="description">Join the discord server</div>
+                          <div class="description">Join the discord server.</div>
                       </div>
                   </a>
               </div>
@@ -101,7 +108,7 @@ $sesuID = $_SESSION['uID'];
 					        };
 						}				    
 
-                  echo '<a class="item">'.$row['user_name'].$stafftag.'</a>';
+                  echo '<a href="player.php?searchuser='.$row['user_name'].'" class="item">'.$row['user_name'].$stafftag.'</a>';
                 }
               }
               ?>

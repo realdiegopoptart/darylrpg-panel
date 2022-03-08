@@ -115,9 +115,11 @@
       <div class="ui top fixed borderless huge inverted menu" style="padding: 8px">
         <div class="ui container">
           <a class="header item">Asiania RPG</a>
-          <a class="item">Home</a> 
-          <a class="item">Assets</a>
-          <a class="item">Profile</a>
+          <a href="index.php" class="item">Home</a> 
+          <a href="assets.php" class="item">Assets</a>
+          <?php
+          echo '<a href="player.php?searchuser='.$_SESSION['playername'].'"class="item">Profile</a>';
+          ?>
         </div>
 
  		<form method="GET" action="player.php" style="height: 42px; padding-top: 10px;" class="ui icon mini input">
