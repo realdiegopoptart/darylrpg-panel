@@ -27,22 +27,12 @@ if(isset($_GET['searchuser']))
 	}
 	else
 	{
-		echo '<div class="ui red message">
-		<div class="header">
-		  Player not found
-		</div>
-		<p>This player does not exist or there was a typo.</p>
-	  </div>';
+		echo '<META HTTP-EQUIV="Refresh" Content="0; URL=invalidplayer.php">';
 	}
 
 	if($query->rowCount() == 0)
 	{
-		echo '<div class="ui red message">
-		<div class="header">
-		  Something went wrong
-		</div>
-		<p>Could not load data, if this persits please contact a developer.</p>
-	  </div>';
+		echo '<META HTTP-EQUIV="Refresh" Content="0; URL=invalidplayer.php">';
 	}
 }
 ?>
