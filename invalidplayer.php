@@ -22,7 +22,7 @@ if(isset($_GET['id']))
 				</h2>
 				    <div class="ui segments">
 				    <div class="ui segment">
-					     	<center><form method="GET" action="player.php" class="ui large error input">
+					     	<center><form method="GET" action="player.php" class="ui large input">
     							<input type="text" placeholder="Try searching again..." name="searchuser" id="searchuser">
     						</form></center>
 				    </div>
