@@ -59,7 +59,7 @@ $sesuID = $_SESSION['uID'];
             <p>Online players:</p>
             <div class="ui vertical menu">
               <?php
-              $isonlinequery = $con->prepare("SELECT user_name, admin_lvl, helper_level FROM users WHERE isonline = 1");
+              $isonlinequery = $con->prepare("SELECT user_name, admin_lvl, helper_level, acforced FROM users WHERE isonline = 1");
               $isonlinequery->execute();
 
               if($isonlinequery -> rowCount() == 0)
@@ -107,8 +107,13 @@ $sesuID = $_SESSION['uID'];
 					                break;
 					        };
 						}				    
-
-                  echo '<a href="player.php?searchuser='.$row['user_name'].'" class="item">'.$row['user_name'].$stafftag.'</a>';
+                  $playerusername = $row['user_name'];
+                  if($row['acforced'])
+                  {
+                    $playerusername = '<font color="#0dda1d">[+]</font> ' . $row['user_name'];
+                  }
+                  
+                  echo '<a href="player.php?searchuser='.$row['user_name'].'" class="item">'.$playerusername . $stafftag.'</a>';
                 }
               }
               ?>

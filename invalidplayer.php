@@ -18,7 +18,7 @@ if(isset($_GET['id']))
 			<div class="ui info message">
 
 				<h2 class="ui center aligned icon header">
-				  Searched user does not exist
+				  That user does not exist
 				</h2>
 				    <div class="ui segments">
 				    <div class="ui segment">
@@ -26,7 +26,10 @@ if(isset($_GET['id']))
     							<input type="text" placeholder="Try searching again..." name="searchuser" id="searchuser">
     						</form></center>
 				    </div>
+</div>
 
+					
 <?php
 	include 'includes/footer.php'; 
 ?>
+

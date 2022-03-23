@@ -91,7 +91,6 @@ if(isset($_GET['searchuser']))
 	  		if($sData['helper_level'] == 1)
 	  		{
 	  			$adminlvl = "Helper";
-	  			break;
 	  		}
 
 	  		switch($sData['admin_lvl']) 
@@ -137,46 +136,84 @@ if(isset($_GET['searchuser']))
 
             <div role="list" class="ui list">
 
-                <div role="listitem" class="item">
-                    <div class="header">Level</div>
-                    <div class="description"><?php echo $sData['level']; ?></div>
-                </div>
-
-                <div role="listitem" class="item">
-                    <div class="header">Total Playtime</div>
-                	<div class="description"><?php echo $sData['hours_online'];  ?></div>
-                </div>
-
-                <div role="listitem" class="item">
-                    <div class="header">Last online</div>
-                    <div class="description"><?php echo $sData['last_login']; ?></div>
-            	</div>
-        	</div>
     </div>
     <div class="column">
         <div role="list" class="ui list">
 
-            <div role="listitem" class="item">
-                <div class="header">Cash</div>
-                <div class="description"> <?php echo '$'.number_format($sData['money']); ?></div>
-            </div>
 
-            <div role="listitem" class="item">
-                <div class="header">Phone Number</div>
-                <div class="description"> <?php echo $sData['phone_number']; ?></div>
-            </div>
-
-	        <div role="listitem" class="item">
-	            <div class="header">Passport</div>
-	            <div class="description">Yes</div>
-	        </div>
-
-	        <div role="listitem" class="item">
-	            <div class="header">Drivers license</div>
-	   			<div class="description"><?php echo ($sData['vehicle_license']) ? ("Yes") : ("No") ?></div>
-	        </div>
 
     </div>
+</div>
+
+
+<div class="ui three statistics">
+  <div class="statistic">
+    <div class="value">
+		<?php echo $sData['level']; ?>
+    </div>
+    <div class="label">
+      Level
+    </div>
+  </div>
+
+  <div class="statistic">
+    <div class="value">
+    	<?php echo $sData['hours_online']; ?>
+    </div>
+    <div class="label">
+	Total Playtime
+    </div>
+  </div>
+  <div class="statistic">
+    <div class="text value">
+		<?php echo str_replace("-","<br>", $sData['last_login']);?>
+    </div>
+    <div class="label">
+      Last online
+    </div>
+  </div>
+</div>
+
+	<div class="ui horizontal section divider">
+	-
+		</div>
+
+<div class="ui four statistics">
+  <div class="statistic">
+    <div class="value">
+		<?php echo '$'.number_format($sData['money']); ?>
+    </div>
+    <div class="label">
+	Cash
+    </div>
+  </div>
+
+  <div class="statistic">
+    <div class="value">
+	<?php echo $sData['phone_number']; ?>
+    </div>
+    <div class="label">
+	Phone Number
+    </div>
+  </div>
+
+  <div class="statistic">
+    <div class="value">
+	<?php echo ($sData['vehicle_license']) ? ("Yes") : ("No") ?>
+    </div>
+    <div class="label">
+	Drivers license
+    </div>
+  </div>
+
+  <div class="statistic">
+    <div class="value">
+	<?php echo ($sData['gun_license']) ? ("Yes") : ("No") ?>
+    </div>
+    <div class="label">
+	Weapon license
+    </div>
+  </div>
 </div>
 
 	<div class="ui horizontal section divider">
@@ -188,7 +225,14 @@ $query->execute();
 
 ?>
 
-<table class="ui table">
+<?php
+  if($query -> rowCount() == 0)
+  {
+    echo "<center><h2><strong>This player hasn't joined any groups yet.</strong></h2></center>";
+  }
+  else
+  {
+echo '<table class="ui table">
     <thead class="">
         <tr class="">
             <th class="">Type</th>
@@ -196,61 +240,55 @@ $query->execute();
             <th class="">Rank</th>
         </tr>
     </thead>
-    <tbody class="">
+    <tbody class="">';
 
+	while($row = $query -> fetch())
+	{
+		$groupId = $row['group_id'];
+		$grouprankquery = $con->prepare(
+				"SELECT r.rank_level AS level, r.rank_name AS title 
+				FROM group_members m 
+				INNER JOIN group_ranks r ON (r.rank_level = m.user_rank AND r.group_id = m.groupid)
+				WHERE m.user_id = {$sData['user_id']} AND m.groupid = $groupId");
+		$grouprankquery->execute();
+		$getGroupRank = $grouprankquery->fetch();
 
-  <?php
-  if($query -> rowCount() == 0)
-  {
-    echo "<center><h4><strong>This player has not joined any groups yet.</strong></h4></center>";
+			switch($row['type']) 
+			{
+				case 1:
+				case 6:
+				case 9:
+					$a = '<div class="ui blue tiny basic horizontal label">Government</div>';
+					break;
+				case 13:
+				case 7:
+					$a = '<div class="ui grey tiny basic horizontal label">Business</div>';
+					break;
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 8:
+				case 12:
+					$a = '<div class="ui grey tiny basic horizontal label">Criminal</div>';
+					break;
+			}
+
+		echo '<tr class="">
+				<td class="one wide">
+					'.$a.'
+				</td>
+				<td class="five wide">
+					<h4 class="ui header">
+						<div class="content"><a href="group.php?groupid='.$row['group_id'].'">'.$row['name'].'</a>
+							<div class="sub header">'.$row['prefix'].'</div>
+						</div>
+					</h4>
+				</td>
+				<td class="">'.$getGroupRank['title'].'</td>
+			</tr>';
+		}
   }
-
-  while($row = $query -> fetch())
-  {
-      $groupId = $row['group_id'];
-      $grouprankquery = $con->prepare(
-            "SELECT r.rank_level AS level, r.rank_name AS title 
-            FROM group_members m 
-            INNER JOIN group_ranks r ON (r.rank_level = m.user_rank AND r.group_id = m.groupid)
-            WHERE m.user_id = {$sData['user_id']} AND m.groupid = $groupId");
-      $grouprankquery->execute();
-      $getGroupRank = $grouprankquery->fetch();
-
-        switch($row['type']) 
-        {
-            case 1:
-            case 6:
-            case 9:
-                $a = '<div class="ui blue tiny basic horizontal label">Government</div>';
-                break;
-            case 13:
-            case 7:
-                $a = '<div class="ui grey tiny basic horizontal label">Business</div>';
-                break;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 8:
-            case 12:
-                $a = '<div class="ui grey tiny basic horizontal label">Criminal</div>';
-                break;
-        }
-
-    echo '<tr class="">
-            <td class="one wide">
-                '.$a.'
-            </td>
-            <td class="five wide">
-                <h4 class="ui header">
-                    <div class="content"><a href="group.php?groupid='.$row['group_id'].'">'.$row['name'].'</a>
-                        <div class="sub header">'.$row['prefix'].'</div>
-                    </div>
-                </h4>
-            </td>
-            <td class="">'.$getGroupRank['title'].'</td>
-        </tr>';
-	} 
   ?>
     </tbody>
 </table>
