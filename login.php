@@ -48,11 +48,11 @@ if(isset($_POST['pname']) && isset($_POST['ppass']))
     />
     <meta
       name="description"
-      content="Asiania RPG"
+      content="Axiania RPG"
     />
     <meta name="theme-color" content="#ffffff" />
 
-    <title>Asiania RPG</title>
+    <title>Axiania RPG</title>
 
     <link
       rel="stylesheet"
@@ -80,7 +80,7 @@ if(isset($_POST['pname']) && isset($_POST['ppass']))
   <body id="root">
     <div class="ui center aligned grid">
       <div class="ui container">
-        <h1 class="ui huge header">Asiania RPG Panel</h1>
+        <h1 class="ui huge header">Axiania RPG Panel</h1>
         <form class="ui large form" action="login.php" method="POST">
           <div class="field">
             <div class="ui input">

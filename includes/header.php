@@ -11,7 +11,7 @@
     />
     <meta name="author" content="PPType" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Asiania RPG - Panel</title>
+    <title>Axiania RPG - Panel</title>
     
     <link
       rel="stylesheet"
@@ -114,7 +114,7 @@
     <div class="ui grid">
       <div class="ui top fixed borderless huge inverted menu" style="padding: 8px">
         <div class="ui container">
-          <a class="header item">Asiania RPG</a>
+          <a class="header item">Axiania RPG</a>
           <a href="index.php" class="item">Home</a> 
           <a href="assets.php" class="item">Assets</a>
           <?php

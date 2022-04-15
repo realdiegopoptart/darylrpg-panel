@@ -228,7 +228,7 @@ $query->execute();
 <?php
   if($query -> rowCount() == 0)
   {
-    echo "<center><h2><strong>This player hasn't joined any groups yet.</strong></h2></center>";
+    echo "<center><h3><strong>This player hasn't joined any groups yet.</strong></h3></center>";
   }
   else
   {
@@ -387,7 +387,7 @@ if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID'])
 ?>
             <div class="ui hidden divider"></div>
             <div class="ui divider"></div>
-            <footer>Asiania RPG</footer>
+            <footer>Axiania RPG</footer>
 <?php
 	include 'includes/footer.php'; 
 ?>

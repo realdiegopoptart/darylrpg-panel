@@ -32,7 +32,7 @@ $sesuID = $_SESSION['uID'];
                           <div class="description">Click on me to connect!</div>
                       </div>
                   </a>
-                  <a role="listitem" class="item" href="https://a-rpg.com" target="_blank">
+                  <a role="listitem" class="item" href="https://axiania.com" target="_blank">
                       <i aria-hidden="true" class="browser icon"></i>
                       <div class="content">
                           <div class="header">Forums</div>
@@ -53,7 +53,7 @@ $sesuID = $_SESSION['uID'];
             </div>
             <div class="ui hidden divider"></div>
             <div class="ui divider"></div>
-            <footer>Asiania RPG</footer>
+            <footer>Axiania RPG</footer>
           </div>
           <div class="four wide column">
             <p>Online players:</p>
