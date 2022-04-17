@@ -7,28 +7,21 @@ if(isset($_SESSION['playername']))
 	exit;
 }
 
-if(isset($_POST['pname']) && isset($_POST['ppass']))
+if(isset($_POST['admincode']))
 {
-  if(!isset($_SESSION['playername']))
+    if(isset($_SESSION['playername']))
 	{
 		$username = $_POST['pname'];
 		$password = $_POST['ppass'];
 		$saltedpassword = strtoupper((hash('sha256', $password . $username)));
 
-    $query = $con->prepare("SELECT `admin_lvl`, `user_name`, `user_id` FROM `users` WHERE `user_name` = ? and `password` = ?");
+        $query = $con->prepare("SELECT `admin_lvl`, `user_name`, `user_id` FROM `users` WHERE `user_name` = ? and `password` = ?");
 		$query->execute(array($username, $saltedpassword));
 
 		if($query->rowCount() > 0)
 		{
 			$data = $query->fetch();
 			
-			if($data['admin_level'] >= 1)
-			{
-				$_SESSION['playername'] = $data['user_name'];
-				$_SESSION['uID'] = $data['user_id'];
-				echo '<META HTTP-EQUIV="Refresh" Content="0; URL=verifyadmin.php">';
-			}
-
 			$_SESSION['playername'] = $data['user_name'];
 			$_SESSION['playeradmin'] = $data['admin_lvl'];
 			$_SESSION['uID'] = $data['user_id'];
@@ -91,19 +84,15 @@ if(isset($_POST['pname']) && isset($_POST['ppass']))
         <form class="ui large form" action="login.php" method="POST">
           <div class="field">
             <div class="ui input">
-              <input placeholder="Username" id="pname" name="pname" />
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui input">
-              <input placeholder="Password" type="password" id="ppass" name="ppass" />
+              <input placeholder="Admin Code" type="password" id="ppass" name="ppass" />
             </div>
             	<?php if(isset($err)) 
 					echo '<center><b style="color: red;">'.$err.'</b></center>'; 
 				?>
           </div>
+          <p>You must verify with your admin code.</p>
           <button class="ui fluid large primary button" type="submit">
-            Sign in
+            Verify
           </button>
         </form>
       </div>
@@ -115,25 +104,12 @@ if(isset($_POST['pname']) && isset($_POST['ppass']))
         $(".ui.checkbox").checkbox();
         $(".ui.form").form({
           fields: {
-            username: {
-              identifier: "username",
+            admincode: {
+              identifier: "admincode",
               rules: [
                 {
-                  type: "empty",
-                  prompt: "Please enter your in-game username"
-                }
-              ]
-            },
-            password: {
-              identifier: "password",
-              rules: [
-                {
-                  type: "empty",
-                  prompt: "Please enter your password"
-                },
-                {
-                  type: "length[6]",
-                  prompt: "Your password must be at least 6 characters"
+                  type: "length[3]",
+                  prompt: "Your admin code is atleast 3 numbers"
                 }
               ]
             }

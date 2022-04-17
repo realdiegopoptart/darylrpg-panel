@@ -146,75 +146,106 @@ if(isset($_GET['searchuser']))
 </div>
 
 
-<div class="ui three statistics">
-  <div class="statistic">
-    <div class="value">
-		<?php echo $sData['level']; ?>
-    </div>
-    <div class="label">
-      Level
-    </div>
+
+<div class="ui grid">
+
+  <div class="five wide column">
+
+	<table class="ui celled striped table">
+		<thead>
+			<tr>
+				<th colspan="2">
+				Certificates
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td class="collapsing"><i class="car icon"></i> Drivers License </td>
+				<td> <?php echo($sData['gun_license']) ? ("Yes") : ("No") ?> </td>
+			</tr>
+
+			<tr>
+				<td class="collapsing"><i class="user secret icon"></i> Gun License </td>
+				<td> <?php echo($sData['gun_license']) ? ("Yes") : ("No") ?> </td>
+			</tr>
+		
+			<tr>
+				<td class="collapsing"><i class="plane icon"></i> Pilot License </td>
+				<td><?php echo($sData['air_license']) ? ("Yes") : ("No") ?></td>
+			</tr>
+		</tbody>
+	</table>
+
   </div>
 
-  <div class="statistic">
-    <div class="value">
-    	<?php echo $sData['hours_online']; ?>
-    </div>
-    <div class="label">
-	Total Playtime
-    </div>
+
+  <div class="five wide column">
+
+	<table class="ui celled striped table">
+		<thead>
+			<tr>
+				<th colspan="2">
+				Networth
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td class="collapsing"><i class="money bill alternate outline secret icon"></i> Cash </td>
+				<td> <?php echo '$'.number_format($sData['money']); ?> </td>
+			</tr>
+
+			<tr>
+				<td class="collapsing"><i class="university icon"></i> Bank </td>
+				<td> TBA </td>
+			</tr>
+		
+			<tr>
+				<td class="collapsing"><i class="plane icon"></i> Total </td>
+				<td> TBA </td>
+			</tr>
+		</tbody>
+	</table>
+
   </div>
-  <div class="statistic">
-    <div class="text value">
-		<?php echo str_replace("-","<br>", $sData['last_login']);?>
-    </div>
-    <div class="label">
-      Last online
-    </div>
+
+
+  <div class="five wide column">
+
+  <table class="ui celled striped table">
+		<thead>
+			<tr>
+				<th colspan="2">
+				Activity
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td class="collapsing"><i class="calendar alternate outline icon"></i> Last Online </td>
+				<td> <?php echo $sData['last_login']; ?> </td>
+			</tr>
+
+			<tr>
+				<td class="collapsing"><i class="signal icon"></i> Level </td>
+				<td> <?php echo $sData['level']; ?> </td>
+			</tr>
+		
+			<tr>
+				<td class="collapsing"><i class="clock outline icon"></i> Total Playtime </td>
+				<td><?php echo $sData['hours_online']; ?> Hours</td>
+			</tr>
+		</tbody>
+	</table>
+
   </div>
+  
 </div>
 
-	<div class="ui horizontal section divider">
-	-
-		</div>
-
-<div class="ui four statistics">
-  <div class="statistic">
-    <div class="value">
-		<?php echo '$'.number_format($sData['money']); ?>
-    </div>
-    <div class="label">
-	Cash
-    </div>
-  </div>
-
-  <div class="statistic">
-    <div class="value">
-	<?php echo $sData['phone_number']; ?>
-    </div>
-    <div class="label">
-	Phone Number
-    </div>
-  </div>
-
-  <div class="statistic">
-    <div class="value">
-	<?php echo ($sData['vehicle_license']) ? ("Yes") : ("No") ?>
-    </div>
-    <div class="label">
-	Drivers license
-    </div>
-  </div>
-
-  <div class="statistic">
-    <div class="value">
-	<?php echo ($sData['gun_license']) ? ("Yes") : ("No") ?>
-    </div>
-    <div class="label">
-	Weapon license
-    </div>
-  </div>
-</div>
 
 	<div class="ui horizontal section divider">
 		PLAYER GROUPS
@@ -294,8 +325,9 @@ echo '<table class="ui table">
 </table>
 
 <?php
-if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID']) 
+if($_SESSION['playeradmin'] >= 1 || $sData['user_id'] == $_SESSION['uID']) 
 {
+	
     $queryp = $con->prepare("SELECT r.type, r.reason, r.admin_id FROM record r INNER JOIN users p ON (r.user_id = p.user_id) WHERE p.user_id = {$sData['user_id']} ORDER BY r.time;");
     $queryp->execute();	
 	
@@ -319,8 +351,13 @@ if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID'])
 		  <tr>
 			<th class="">Type</th>
 			<th class="">Reason</th>
-			<th class="">Admin</th>
-		  </tr>
+			<th class="">Admin</th>';
+			if($_SESSION['playeradmin'] >= 2)
+			{
+				echo '<th class="">Options</th>';
+			}
+
+		echo '</tr>
 		</thead>
 		<tbody>';
 
@@ -374,8 +411,12 @@ if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID'])
 			$adminname = $con->prepare("SELECT user_name FROM users WHERE user_id = $adminid");
 			$adminname->execute();
 			$adminName = $adminname->fetch();
-			echo '<a href="player.php?searchuser='.$adminName['user_name'].'" >'.$adminName['user_name']; echo `</td>
-			</tr>`;
+			echo '<a href="player.php?searchuser='.$adminName['user_name'].'" >'.$adminName['user_name'] . `</td>`;
+			if($_SESSION['playeradmin'] >= 2)
+			{
+				echo '<td><a href="admin.php?action=removerecord&id='.$row['admin_id'].'&userid='.$sData['user_id'].'&type='.$row['type'].'&reason='.$row['reason'].'">Expunge</a></td>';
+			}
+			echo `</tr>`;
 		}
 
 		echo '</tbody>
@@ -383,6 +424,7 @@ if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID'])
 		</tfoot>
 		</table>';
 	}
+
 }
 ?>
             <div class="ui hidden divider"></div>
@@ -391,3 +433,8 @@ if($_SESSION['playeradmin'] > 1 || $sData['user_id'] == $_SESSION['uID'])
 <?php
 	include 'includes/footer.php'; 
 ?>
+
+
+<script>
+$('.mini.modal').modal('show');
+</script>

@@ -41,11 +41,11 @@ $cquery->execute();
             case 1:
             case 6:
             case 9:
-                $a = '<div class="ui blue tiny basic horizontal label">Government</div>';
+                echo '<div class="ui blue tiny basic horizontal label">Government</div>';
                 break;
             case 13:
             case 7:
-                $a = '<div class="ui grey tiny basic horizontal label">Business</div>';
+                echo '<div class="ui grey tiny basic horizontal label">Business</div>';
                 break;
             case 2:
             case 3:
@@ -53,10 +53,10 @@ $cquery->execute();
             case 5:
             case 8:
             case 12:
-                $a = '<div class="ui grey tiny basic horizontal label">Criminal</div>';
+                echo'<div class="ui grey tiny basic horizontal label">Criminal</div>';
                 break;
-        }
-        echo $a; ?>
+        } 
+        ?>
   </div>
 
     <div class="ui horizontal section divider">
@@ -74,7 +74,7 @@ $cquery->execute();
                 <div class="label"><small>Group Tag</small></div>
             </div>
             <div class="ui statistic">
-                <div class="value"><i aria-hidden="true" class="car icon"></i> <?php echo intval($cquery->rowCount()) ?></div>
+                <div class="value"><i aria-hidden="true" class="car icon"></i> <?php echo intval($cquery->rowCount()) ."/". $gData['maxvehslots'] ?></div>
                 <div class="label"><small>Group Vehicles</small></div>
             </div>
             <div class="ui statistic">
@@ -93,6 +93,7 @@ $cquery->execute();
         <tr class="">
             <th class="">Player</th>
             <th class="">Rank</th>
+            <th class="">Level</th>
         </tr>
     </thead>
     <tbody class="">
@@ -107,7 +108,7 @@ while($row = $bquery -> fetch())
     $playername->execute();
     $getplayername = $playername->fetch();
 
-    $rankname = $con->prepare("SELECT rank_name FROM group_ranks WHERE rank_level = {$row['user_rank']} AND group_id = $getGroupId");
+    $rankname = $con->prepare("SELECT rank_name, rank_level FROM group_ranks WHERE rank_level = {$row['user_rank']} AND group_id = $getGroupId");
     $rankname->execute();
     $getrankname = $rankname->fetch();
 
@@ -118,12 +119,18 @@ while($row = $bquery -> fetch())
               </h4>
           </td>
           <td class="">'.$getrankname['rank_name'].'</td>
+          </td>
+          <td class="">'.$getrankname['rank_level'].'</td>
       </tr>';
 } 
 ?>
   </tbody>
 </table>
-
-<div class="panel-footer">
-    <?php include 'includes/footer.php'; ?>
 </div>
+
+<div class="ui hidden divider"></div>
+            <div class="ui divider"></div>
+            <footer>Axiania RPG</footer>
+<?php
+	include 'includes/footer.php'; 
+?>

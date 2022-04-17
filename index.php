@@ -70,44 +70,44 @@ $sesuID = $_SESSION['uID'];
               {
                 while($row = $isonlinequery -> fetch())
                 {
+					$stafftag;
 
-				    	$stafftag;
-
-				        if($row['helper_level'] == 1)
-				        {
-				        	$stafftag = '<div class="ui green tiny basic horizontal label">Helper</div>';
-				        }
-				        else
-				        {
-					        switch($row['admin_lvl']) 
-					        {
-					         	case 1:
-					                $stafftag = '<div class="ui green tiny basic horizontal label">Moderator</div>';
-					                break;
-					            case 2:
-					                $stafftag = '<div class="ui green tiny basic horizontal label">Junior Admin</div>'; 
-					                break;
-					            case 3:
-					                $stafftag = '<div class="ui red tiny basic horizontal label">Senior Admin</div>';
-					                break;
-					            case 4:
-					                $stafftag = '<div class="ui orange tiny basic horizontal label">Manager</div>';
-					                break;
-					            case 5:
-					                $stafftag = '<div class="ui red tiny basic horizontal label">Server Leader</div>';
-					                break;
-					            case 6:
-					                $stafftag = '<div class="ui red tiny basic horizontal label">Director</div>';
-					                break;
-					            case 7:
-					                $stafftag = '<div class="ui red tiny basic horizontal label">Owner</div>';
-					                break;
-					            default:
-					                $stafftag = "";
-					                break;
-					        };
-						}				    
+					if($row['helper_level'] == 1)
+					{
+						$stafftag = '<div class="ui green tiny basic horizontal label">Helper</div>';
+					}
+					else
+					{
+						switch($row['admin_lvl']) 
+						{
+							case 1:
+								$stafftag = '<div class="ui green tiny basic horizontal label">Moderator</div>';
+								break;
+							case 2:
+								$stafftag = '<div class="ui green tiny basic horizontal label">Junior Admin</div>'; 
+								break;
+							case 3:
+								$stafftag = '<div class="ui red tiny basic horizontal label">Senior Admin</div>';
+								break;
+							case 4:
+								$stafftag = '<div class="ui orange tiny basic horizontal label">Manager</div>';
+								break;
+							case 5:
+								$stafftag = '<div class="ui red tiny basic horizontal label">Server Leader</div>';
+								break;
+							case 6:
+								$stafftag = '<div class="ui red tiny basic horizontal label">Director</div>';
+								break;
+							case 7:
+								$stafftag = '<div class="ui red tiny basic horizontal label">Owner</div>';
+								break;
+							default:
+								$stafftag = "";
+								break;
+						};
+					}				    
                   $playerusername = $row['user_name'];
+
                   if($row['acforced'])
                   {
                     $playerusername = '<font color="#0dda1d">[+]</font> ' . $row['user_name'];

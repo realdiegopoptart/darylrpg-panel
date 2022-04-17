@@ -110,11 +110,14 @@
     </style>
   </head>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+
   <body id="root">
     <div class="ui grid">
       <div class="ui top fixed borderless huge inverted menu" style="padding: 8px">
         <div class="ui container">
-          <a class="header item">Axiania RPG</a>
+          <p class="header item">Axiania RPG</p>
           <a href="index.php" class="item">Home</a> 
           <a href="assets.php" class="item">Assets</a>
           <?php
