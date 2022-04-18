@@ -11,6 +11,12 @@ if(isset($_GET['id']))
 }
 
 $sesuID = $_SESSION['uID'];
+
+if($_SESSION['verifiedadmin'] == 1)
+{
+  echo "DEBUG: verified admin code`";
+}
+
 ?>
 
       <div class="ui container">

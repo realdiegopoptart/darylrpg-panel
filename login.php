@@ -21,17 +21,11 @@ if(isset($_POST['pname']) && isset($_POST['ppass']))
 		if($query->rowCount() > 0)
 		{
 			$data = $query->fetch();
-			
-			if($data['admin_level'] >= 1)
-			{
-				$_SESSION['playername'] = $data['user_name'];
-				$_SESSION['uID'] = $data['user_id'];
-				echo '<META HTTP-EQUIV="Refresh" Content="0; URL=verifyadmin.php">';
-			}
 
 			$_SESSION['playername'] = $data['user_name'];
 			$_SESSION['playeradmin'] = $data['admin_lvl'];
 			$_SESSION['uID'] = $data['user_id'];
+      $_SESSION['verifiedadmin'] == 0;
 			 
 			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';   
 			exit;

@@ -1,7 +1,7 @@
 <?php
 include 'includes/config.php';
 
-if(isset($_SESSION['playername']))
+if(!isset($_SESSION['playername']))
 {
 	echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';   
 	exit;
@@ -9,30 +9,25 @@ if(isset($_SESSION['playername']))
 
 if(isset($_POST['admincode']))
 {
-    if(isset($_SESSION['playername']))
+	$admincode = $_POST['admincode'];
+
+	$aquery = $con->prepare("SELECT `admin_lvl`, `user_name`, `user_id` FROM `users` WHERE `user_name` = ? and `password` = ?");
+
+	if($aquery->rowCount() > 0)
 	{
-		$username = $_POST['pname'];
-		$password = $_POST['ppass'];
-		$saltedpassword = strtoupper((hash('sha256', $password . $username)));
+		$data = $aquery->fetch();
 
-        $query = $con->prepare("SELECT `admin_lvl`, `user_name`, `user_id` FROM `users` WHERE `user_name` = ? and `password` = ?");
-		$query->execute(array($username, $saltedpassword));
-
-		if($query->rowCount() > 0)
-		{
-			$data = $query->fetch();
-			
-			$_SESSION['playername'] = $data['user_name'];
-			$_SESSION['playeradmin'] = $data['admin_lvl'];
-			$_SESSION['uID'] = $data['user_id'];
-			 
-			echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';   
-			exit;
-		}
+		if($data['admincode'] == $_POST['admincode'])
+			$_SESSION['verifiedadmin'] = 1;
 		else
-		{
-			$err = 'Wrong username or password';
-		}
+			$err = 'Unable to verify your admin code (Error code: 2)';
+			
+		echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php">';   
+		exit;
+	}
+	else
+	{
+		$err = 'Unable to verify your admin code (Error code: 1)';
 	}
 }
 ?>
