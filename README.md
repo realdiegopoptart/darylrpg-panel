@@ -14,15 +14,15 @@ the panel isn't complete
 ## Screenshots
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/realdiegopoptart/darylrpg-panel/main/.github/login_ss.png" width="210" />
+    <img src="https://raw.githubusercontent.com/realdiegopoptart/darylrpg-panel/main/.github/login_ss.png"/>
 </p>
 
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/realdiegopoptart/darylrpg-panel/main/.github/home_ss.png" width="210" />
+    <img src="https://raw.githubusercontent.com/realdiegopoptart/darylrpg-panel/main/.github/home_ss.png"/>
 </p>
 
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/realdiegopoptart/darylrpg-panel/main/.github/profile_ss.png"width="210" />
+    <img src="https://raw.githubusercontent.com/realdiegopoptart/darylrpg-panel/main/.github/profile_ss.png"/>
 </p>
