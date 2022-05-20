@@ -15,7 +15,7 @@ the panel isn't complete
 
 >    playerbank account data
 
->    (all that I can remember on the top of my head
+>    (all that I can remember on the top of my head)
 ```
 
 ## Known bugs:
